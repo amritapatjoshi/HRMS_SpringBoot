@@ -29,35 +29,24 @@
 # CMD ["java", "-jar", "app.jar"]
 
 
-# Use a base image with JDK, Maven, and JRE installed
-FROM maven:3.8.4-openjdk-11 AS build
+# Use an OpenJDK base image
+FROM openjdk:11-jdk-slim
 
-# Set working directory
+# Set the working directory inside the container
 WORKDIR /app
 
 # Copy the Maven project file
-COPY pom.xml .
+COPY pom.xml /app
 
-# Download dependencies
-RUN mvn dependency:go-offline -B
-
-# Copy the application source code
-COPY src ./src
+# Copy the source code
+COPY src /app/src
 
 # Build the application
-RUN mvn package -DskipTests
+RUN mvn package
 
-# Use a lighter weight base image for runtime
-FROM openjdk:11-jre-slim
-
-# Set working directory for runtime
-WORKDIR /app
-
-# Copy the JAR file from the build stage
-COPY --from=build /app/target/*.jar ./app.jar
-
-# Expose the port
+# Expose the port the Spring Boot app runs on
 EXPOSE 8080
 
-# Command to run the application
-CMD ["java", "-jar", "app.jar"]
+# Run the JAR file
+CMD ["java", "-jar", "target/my-spring-boot-app.jar"]
+
