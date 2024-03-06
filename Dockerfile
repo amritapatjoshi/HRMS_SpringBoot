@@ -4,6 +4,10 @@
 # # Set working directory
 # WORKDIR /app
 
+# Install Maven
+RUN apt-get update && \
+    apt-get install -y maven
+
 # # Copy the Maven project file
 # COPY pom.xml .
 
