@@ -20,9 +20,9 @@ FROM openjdk:17-slim
 # set deployment directory
 WORKDIR /opt/demo
 # copy over the built artifact from the maven image
-COPY --from=stage1 /opt/demo/target/demo.jar /opt/demo
+COPY --from=stage1 /opt/demo/target/HRMS-0.0.1-SNAPSHOT.jar  /opt/demo
 # expose the port your app runs on
 EXPOSE 8080
 # specify the command to run your application
-CMD ["java", "-jar", "demo.jar"]
+CMD ["java", "-jar", "HRMS-0.0.1-SNAPSHOT.jar"]
 
